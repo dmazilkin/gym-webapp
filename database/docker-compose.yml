@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:18
+    container_name: gym-db-postgres
+    environment:
+      - POSTGRES_USER=gym_user
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=gym_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - gym-db-data:/var/lib/postgresql/18/docker
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  gym-db-data:
