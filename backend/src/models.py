@@ -6,13 +6,13 @@ import enum
 
 
 class WeekDay(str, enum.Enum):
-    MONDAY = "Monday"
-    TUESDAY = "Tuesday"
-    WEDNESDAY = "Wednesday"
-    THURSDAY = "Thursday"
-    FRIDAY = "Friday"
-    SATURDAY = "Saturday"
-    SUNDAY = "Sunday"
+    MONDAY = "MONDAY"
+    TUESDAY = "TUESDAY"
+    WEDNESDAY = "WEDNESDAY"
+    THURSDAY = "THURSDAY"
+    FRIDAY = "FRIDAY"
+    SATURDAY = "SATURDAY"
+    SUNDAY = "SUNDAY"
 
 
 class PaymentCurrency(str, enum.Enum):
@@ -110,7 +110,7 @@ class Group(Base):
     max_capacity = Column(Integer, nullable=False)
     time_start = Column(Time, nullable=False)
     time_finish = Column(Time, nullable=False)
-    week_day = Column(SQLEnum(WeekDay), nullable=False)
+    week_day = Column(SQLEnum(WeekDay, name='week_day'), nullable=False)
 
     trainer = relationship("Trainer", back_populates="groups")
     gym = relationship("Gym", back_populates="groups")
@@ -133,7 +133,7 @@ class OpeningHours(Base):
 
     id_opening_hours = Column(Integer, primary_key=True, index=True, autoincrement=True)
     id_gyms = Column(Integer, ForeignKey("gyms.id_gym"), nullable=True)
-    week_day = Column(SQLEnum(WeekDay), nullable=False)
+    week_day = Column(SQLEnum(WeekDay, name='week_day'), nullable=False)
     time_open = Column(Time, nullable=False)
     time_close = Column(Time, nullable=False)
 
@@ -146,7 +146,7 @@ class MembershipType(Base):
     id_membership_type = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(Text, nullable=False)
     price = Column(MONEY, nullable=False)
-    currency = Column(SQLEnum(PaymentCurrency), nullable=False)
+    currency = Column(SQLEnum(PaymentCurrency, name="payment_currency"), nullable=False)
     duration = Column(Date, nullable=False)
     description = Column(Text, nullable=False)
 
@@ -177,7 +177,7 @@ class Payment(Base):
     id_payment = Column(Integer, primary_key=True, index=True, autoincrement=True)
     payment_status = Column(SQLEnum(PaymentStatus), nullable=False)
     amount = Column(MONEY, nullable=False)
-    currency = Column(SQLEnum(PaymentCurrency), nullable=False)
+    currency = Column(SQLEnum(PaymentCurrency, name="payment_currency"), nullable=False)
     date_creation = Column(TIMESTAMP, nullable=False)
     date_payment = Column(TIMESTAMP, nullable=False)
     date_due_date = Column(TIMESTAMP, nullable=False)
